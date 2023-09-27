@@ -7,6 +7,9 @@
   clip-path: polygon(0 0, 100% 0, 100% 93%, 53% 93%, 50% 100%, 47% 93%, 0 93%);
   position: reltive;
 }
+.slick-slide{
+  transform: scale(0.9);
+}
 section {
   width: 95%;
   margin: 72px auto;
@@ -249,13 +252,13 @@ section {
 
 .home-client-contact-details h1 {
   padding-top: 10px;
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   font-size: 45px;
   font-weight: 700;
   line-height: 63px;
   letter-spacing: 0em;
   width: 414px;
-  height: 126px;
+  /* height: 126px; */
   /* margin-bottom: -52px; */
 }
 
@@ -422,6 +425,7 @@ section {
   height: 120px;
   object-fit: contain;
   transition: ease 400ms;
+  border: 1px solid;
 }
 .home-client-item img:hover {
   filter: grayscale(0);
@@ -565,7 +569,7 @@ section {
 }
 
 .home-banner-title {
-  font-weight: 500;
+  font-weight: 800;
   line-height: 65px;
   text-align: center;
   font-size: 48px;
@@ -574,7 +578,7 @@ section {
 .home-banner-content {
   text-align: center;
   font-size: 75px;
-  font-weight: 750;
+  font-weight: 500;
 }
 
 .home-banner-sub-content {

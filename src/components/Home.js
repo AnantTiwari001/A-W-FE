@@ -278,7 +278,7 @@ function Home() {
               <div className='section-heading'>Testimonials</div>
             </div>
 
-            <div className='carousel-slick-container'>
+            <div className='carousel-slick-container'  >
               <div className='home-carousel-item-center'></div>
               <Slider
                 {...settings}
@@ -473,10 +473,9 @@ function Home() {
             <div className='home-client-contact-details'>
               <div className='section-heading-contact-us'>Contact Us</div>
               <h1
-                style={{ textTransform: "uppercase" }}
                 className='desktop-client-contact-header'
               >
-                Contact Our Support Team
+                Write To Us
               </h1>
 
               <p>Need to get in touch with our team? We’re all ears.</p>

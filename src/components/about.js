@@ -224,7 +224,7 @@ const About = () => {
             {
               image: image,
               speed: showFirst ? -10 : 0,
-              // scale: [1.01, 1.01],
+              scale: [1.01, 1.01],
               expanded: false,
             },
           ]}
