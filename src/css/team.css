@@ -1,7 +1,30 @@
 .team__banner {
-  height: 100vh;
+  height: 88vh;
   clip-path: polygon(0 0, 100% 0, 100% 93%, 55% 93%, 50% 100%, 45% 93%, 0 93%);
   position: reltive;
+  z-index: 111;
+}
+#title{
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: capitalize;
+  display: none;
+}
+
+.clip{
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  /* background-color: red; */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.clip-pol{
+  clip-path: polygon(46% 77%, 53% 74%, 100% 50%, 100% 100%, 0 100%, 0% 50%);
+  /* width: 50;
+  height: 100%; */
 }
 
 .team-container {
@@ -231,6 +254,7 @@
   padding-bottom: 3%;
   color: #221e1e;
   opacity: 0.7;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .team-details-text-description-1 {
   font-size: 16px;
@@ -241,6 +265,7 @@
   padding-bottom: 24px;
   color: #221e1e;
   opacity: 0.7;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .banner {
   background: linear-gradient(
@@ -277,6 +302,7 @@
 }
 
 @media (max-width: 1000px) {
+  
   .team {
     display: grid;
     grid-template-columns: 1fr;
@@ -292,7 +318,15 @@
     text-align: center;
   }
 }
+@media (max-width:800px) {
+  .clip{
+    display: none;
+  }
+}
 @media (max-width: 600px) {
+  #title{
+    display: initial;
+  }
   .team__banner {
     clip-path: polygon(
       0 0,

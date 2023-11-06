@@ -12,13 +12,33 @@ import x_icon from "../assets/team/x-icon-black.svg";
 import "../css/client.css";
 import { getAbout, getWorks, setActiveNav } from "./../actions";
 import ClientInfo from "./ClientInfo";
+import ParallexComponent from "./ParallexComponent";
 
 function Clients() {
   const [ourWorks, setourWorks] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
   const [showFirst, setshowFirst] = useState(false);
   const [width, setwidth] = useState(window.innerWidth);
+  const [bannerData, setBannerData]= useState({
+    type: "",
+    h1text: "",
+    h2text: "",
+    image: ""
+  })
+
   useEffect(() => {
+    // banner Api
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("https://admin.awcapitalltd.com/api/bannerimages/OurProject/", requestOptions)
+      .then(response => response.text())
+      .then(result => setBannerData(JSON.parse(result).data[0]))
+      .catch(error => console.log('error', error));
+
+
     const widthChange = window.addEventListener("resize", () => {
      
       setwidth(window.innerWidth);
@@ -85,7 +105,7 @@ function Clients() {
     <div className='body main-font'>
       {currentNavState && <div className='mobile-overlay'></div>}
       <div className='client__banner'>
-        <ParallaxBanner
+        {/* <ParallaxBanner
           layers={[
             {
               image: width > 800 ? image : mobileImage,
@@ -106,14 +126,16 @@ function Clients() {
             },
           ]}
           className='banner__background'
-        >
+        > */}
+        <ParallexComponent img={bannerData.image} further={0.3} >
           <div className='banner__background__overlay__about'>
             <div className='banner__background__text'>
              
             </div>
           </div>
           <div></div>
-        </ParallaxBanner>
+        </ParallexComponent>
+        {/* </ParallaxBanner> */}
       </div>
       <div style={{ marginTop: "0px" }} id='scroll-first-section'>
         {showDetails && (

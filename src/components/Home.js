@@ -37,6 +37,7 @@ import clientLogo7 from "../assets/home/KukuFM.svg";
 import clientLogo2 from "../assets/home/Nazara.svg";
 import clientLogo8 from "../assets/home/sportz.png";
 import HomeDescItem from "./HomeDescItem";
+import ParallexComponent from "./ParallexComponent";
 const preloadSrcList = [image, mobileImage];
 
 function Home() {
@@ -47,6 +48,23 @@ function Home() {
   const [width, setWidth] = useState(window.innerWidth);
   const [currentAnimation, setCurrentAnimation] = useState("change");
   const [aboutToChange, setaboutToChange] = useState(false);
+  const [bannerData, setBannerData] = useState({
+    type: "Home",
+    h1text: "A&W CAPITAL",
+    h2text: "A Global Investment Bank",
+    image: "",
+  });
+  const arrayEx = ["ram ", "hari", "krishna", "shayam"];
+  const [testimonialData, setTestimonialData] = useState([
+    {
+      id: null,
+      profile_name: "Kate Grey",
+      profile_image: "/media/images/Ellipse_29.4bdd7fb46cbf48b5c2cd.png",
+      description:
+        "Matthew and the A&W team are our gateway into Europe and they also know and understand the Indian sport and media landscape as well as anyone",
+      company_name: "ABC",
+    },
+  ]);
   var settings = {
     dots: width > 600 ? false : true,
     infinite: true,
@@ -146,6 +164,25 @@ function Home() {
     return () => clearTimeout(timeoutId);
   }, []);
   useEffect(() => {
+    // banner Api
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://admin.awcapitalltd.com/api/bannerimages/Home/",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => setBannerData(JSON.parse(result).data[0]))
+      .catch((error) => console.log("error", error));
+
+    fetch("https://admin.awcapitalltd.com/api/testimonals/", requestOptions)
+      .then((response) => response.text())
+      .then((result) => setTestimonialData(JSON.parse(result).data))
+      .catch((error) => console.log("error", error));
+
     dispatch(getAbout());
     dispatch(setActiveNav("home"));
     parallax();
@@ -164,10 +201,10 @@ function Home() {
       {!imagesPreloaded ? (
         <Preload />
       ) : (
-        <div className='body main-font'>
-          {currentNavState && <div className='mobile-overlay'></div>}
-          <div className='about__banner'>
-            <ParallaxBanner
+        <div className="body main-font">
+          {currentNavState && <div className="mobile-overlay"></div>}
+          <div className="about__banner">
+            {/* <ParallaxBanner
               layers={[
                 {
                   image: width > 800 ? image : mobileImage,
@@ -189,42 +226,57 @@ function Home() {
                 },
               ]}
               className='banner__background'
-            >
-              <div className={width < 800 ? "banner__background__overlay" : ""}>
-                <div className='banner__background__text'>
-                  <div className='home-banner-title'>A&W CAPITAL</div>
-                  <div className='home-banner-content'>
-                    A Global Boutique Investment Bank
-                  </div>
+            > */}
+            <ParallexComponent further={0.3} img={bannerData.image}>
+              <div className={"banner__background__overlay__about"}>
+                <div className="banner__background__text">
+                  <div className="home-banner-title">{bannerData.h1text}</div>
+                  <div className="home-banner-content">{bannerData.h2text}</div>
 
-                  <div className='home-banner-sub-content'>
+                  <div className="home-banner-sub-content">
                     <span>London</span>
-                    <span style={{ margin: '0 15px' }}>|</span>
+                    <span style={{ margin: "0 15px" }}>|</span>
                     <span>Mumbai</span>
                   </div>
 
-                  <Link to='/about' className='home-banner-about-button'>
+                  <Link to="/about" className="home-banner-about-button">
                     About Us
                   </Link>
                 </div>
               </div>
-            </ParallaxBanner>
+            </ParallexComponent>
+            {/* </ParallaxBanner> */}
           </div>
 
           {/* <!-- Our Home Services Section Here dev.nur--> */}
-          <section className='home-services-content'>
+          <section className="home-services-content">
             {/* <!-- services header --> */}
-            <div className='section-heading'>Our Services</div>
+            <div className="section-heading">
+              {" "}
+              <Link
+                to="/services"
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                Our Services
+              </Link>
+            </div>
             {/* <!-- services header --> */}
 
             {/* <!-- services content --> */}
-            <div className='home-services-content-item-container'>
+            <div className="home-services-content-item-container">
               {services?.map((data) => (
-                <div key={data.id} className='home-services-content-item'>
-                  {data.heading === 'Capital Raising' ? (<div className='heading' style={{ width: '80%' }}>{data.heading}</div>) : (<div className='heading'>{data.heading}</div>)
-                  }
-                  <img loading='lazy' src={data.icon} alt='services_icon' />
-                </div>
+                <Link to='/services' style={{color:'initial', textDecoration:'none'}}>
+                  <div key={data.id} className="home-services-content-item service-animation" >
+                    {data.heading === "Capital Raising" ? (
+                      <div className="heading" style={{ width: "80%", color:'inherit' }} id="childColor">
+                        {data.heading}
+                      </div>
+                    ) : (
+                      <div className="heading" style={{color:'inherit'}} >{data.heading}</div>
+                    )}
+                    <img loading="lazy" src={data.icon} alt="services_icon" />
+                  </div>
+                </Link>
               ))}
             </div>
             {/* <!-- services content --> */}
@@ -234,91 +286,110 @@ function Home() {
           {/* <!-- Our Home Coverage Area Here --> */}
 
           <section>
-            <div className='section-heading'>Our Coverage</div>
-            <div className='home-desc' id='scroll-first-section'>
+            <div className="section-heading">Our Coverage</div>
+            <div className="home-desc" id="scroll-first-section">
               <HomeDescItem
                 image={image1}
-                title='Sports'
-                description='Proprietary deal making across leading sports properties globally '
+                title="Sports"
+                description="Proprietary deal making across leading sports properties globally "
               />
               <HomeDescItem
                 image={image3}
-                title='Gaming'
-                description='Deep industry coverage with a pole position in the Indian market'
+                title="Gaming"
+                description="Deep industry coverage with a pole position in the Indian market"
               />
               <HomeDescItem
                 image={image2}
-                title='Digital Media'
-                description='Sector expertise with a focus on global media strategics '
+                title="Digital Media"
+                description="Sector expertise with a focus on global media strategics "
               />
             </div>
           </section>
           {/* <!-- Our Home Coverage Area Ends Here --> */}
-          <section className='home-client'>
-            <div className='section-heading'>Our Clientele</div>
-            <div className='home-client-item'>
-              <img src={clientLogo3} alt='adidas' />
+          <section className="home-client">
+            <div className="section-heading">Our Clientele</div>
+            <div className="home-client-item">
+              <img
+                src={clientLogo3}
+                style={{
+                  objectFit: "cover",
+                  position: "relative",
+                  right: "10px",
+                }}
+                alt="adidas"
+                id="bigImage"
+              />
 
-              <img src={clientLogo2} alt='adidas' />
+              <img src={clientLogo2} alt="adidas" />
 
-              <img src={clientLogo4} alt='adidas' />
+              <img
+                src={clientLogo4}
+                style={{ objectFit: "cover" }}
+                alt="adidas"
+              />
 
-              <img src={clientLogo1} alt='adidas' />
-              <img src={clientLogo5} alt='adidas' />
+              <img src={clientLogo1} style={{ scale: "1.3" }} alt="adidas" />
+              <img src={clientLogo5} alt="adidas" />
 
-              <img src={clientLogo6} alt='adidas' />
+              <img src={clientLogo6} alt="adidas" />
 
-              <img src={clientLogo8} alt='adidas' />
+              <img src={clientLogo8} alt="adidas" />
 
-              <img src={clientLogo7} alt='adidas' />
+              <img src={clientLogo7} alt="adidas" />
             </div>
           </section>
-          <div className='home-carousel'>
-            <div className='carousel-heading'>
-              <div className='section-heading'>Testimonials</div>
+          <div className="home-carousel">
+            <div className="carousel-heading">
+              <div className="section-heading">Testimonials</div>
             </div>
 
-            <div className='carousel-slick-container'  >
-              <div className='home-carousel-item-center'></div>
+            <div
+              className="carousel-slick-container"
+              style={{ position: "relative" }}
+            >
+              <div className="lowOpacity"></div>
+              <div className="lowOpacity" style={{ right: 0 }}></div>
+              <div className="home-carousel-item-center"></div>
               <Slider
                 {...settings}
-                className='carousel-slick'
+                className="carousel-slick"
                 ref={(ref) => (sliderRef.current = ref)}
               >
-                <div>
-                  <div
-                    className={
-                      aboutToChange
-                        ? `home-carousel-item ${currentAnimation}`
-                        : "home-carousel-item"
-                    }
-                  >
-                    <div className='home-carousel-image'>
-                      <img loading='lazy' src={quote} alt='quote' />
-                      <img loading='lazy' src={quote} alt='quote' />
-                    </div>
-                    <div className='home-carousel-text'>
-                      <p>
-                        Matthew and the A&W team have worked with us both in
-                        India and international markets. Their knowledge,
-                        experience, insight and contacts are unrivalled and
-                        invaluable.
-                      </p>
-                    </div>
-                    <div className='home-carousel-footer'>
-                      <img loading='lazy' src={avatar} alt='avatar' />
-                      <div className='home-carousel-footer-text'>
-                        <p className='home-carousel-footer-text-main'>
-                          Hemchandra Javeri
-                        </p>
-                        <p className='home-carousel-footer-text-sub'>
-                          CEO at Zeven
-                        </p>
+                {testimonialData.map((item) => (
+                  <div>
+                    <div
+                      className={
+                        aboutToChange
+                          ? `home-carousel-item ${currentAnimation}`
+                          : "home-carousel-item"
+                      }
+                    >
+                      <div className="home-carousel-image">
+                        <img loading="lazy" src={quote} alt="quote" />
+                        <img loading="lazy" src={quote} alt="quote" />
+                      </div>
+                      <div className="home-carousel-text">
+                        <p>{item.description}</p>
+                      </div>
+                      <div className="home-carousel-footer">
+                        <img
+                          src={`https://admin.awcapitalltd.com${item.profile_image}`}
+                          loading="lazy"
+                          alt="avatar"
+                        />
+                        <div className="home-carousel-footer-text">
+                          <p className="home-carousel-footer-text-main">
+                            {item.profile_name}
+                          </p>
+                          <p className="home-carousel-footer-text-sub">
+                            {item.company_name}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div>
+                ))}
+                {/* <div>
                   <div
                     className={
                       aboutToChange
@@ -411,8 +482,8 @@ function Home() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                   <div
                     className={
                       aboutToChange
@@ -442,12 +513,12 @@ function Home() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </Slider>
-              <div className='carousel-controls'>
-                <div className='carousel-controls-child' onClick={() => { }}>
+              <div className="carousel-controls" style={{ zIndex: "100" }}>
+                <div className="carousel-controls-child" onClick={() => {}}>
                   <FaChevronLeft
-                    className='chevron-icon'
+                    className="chevron-icon"
                     size={25}
                     onClick={() => {
                       setCurrentAnimation("reverse");
@@ -455,9 +526,9 @@ function Home() {
                     }}
                   />
                 </div>
-                <div className='carousel-controls-child' onClick={() => { }}>
+                <div className="carousel-controls-child" onClick={() => {}}>
                   <FaChevronRight
-                    className='chevron-icon'
+                    className="chevron-icon"
                     size={25}
                     onClick={() => {
                       setCurrentAnimation("change");
@@ -469,24 +540,25 @@ function Home() {
             </div>
           </div>
 
-          <section className='home-client-contact'>
-            <div className='home-client-contact-details'>
-              <div className='section-heading-contact-us'>Contact Us</div>
-              <h1
-                className='desktop-client-contact-header'
+          <section className="home-client-contact">
+            <div className="home-client-contact-details"  >
+              <div
+                className="section-heading-contact-us"
+                style={{ fontWeight: "550", fontSize:'22px' }}
               >
-                Write To Us
-              </h1>
+                Contact Us
+              </div>
+              <h1 className="desktop-client-contact-header">Write To Us</h1>
 
               <p>Need to get in touch with our team? We’re all ears.</p>
-              <div className='mobile-header-btn'>
-                <Link to='/contact' className='header-btn '>
-                  Write to us
+              <div className="mobile-header-btn">
+                <Link to="/contact" className="header-btn ">
+                  Contact us
                 </Link>
               </div>
             </div>
-            <div className='home-clientcontact-image'>
-              <img loading='lazy' src={contactImage} alt='contactimage' />
+            <div className="home-clientcontact-image">
+              <img loading="lazy" src={contactImage} alt="contactimage" />
             </div>
           </section>
         </div>

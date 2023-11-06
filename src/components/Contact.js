@@ -14,6 +14,12 @@ function Contact() {
   const [contactInfo, setContactInfo] = useState(undefined)
   const contact_info = useSelector((state) => state.contacts);
   const [validateError, setValidateError] = useState({ name: '', mail: '', content: '' })
+  const [bannerData, setBannerData]= useState({
+      type: "",
+      h1text: "",
+      h2text: "",
+      image: ""
+  })
 
   const ErrorStatement = {
     name: 'Enter a valid name',
@@ -22,6 +28,18 @@ function Contact() {
   }
 
   useEffect(() => {
+    // banner Api
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("https://admin.awcapitalltd.com/api/bannerimages/ContactUs/", requestOptions)
+      .then(response => response.text())
+      .then(result => setBannerData(JSON.parse(result).data[0]))
+      .catch(error => console.log('error', error));
+
+
     dispatch(getContacts());
     dispatch(setActiveNav(""));
     fetch(`https://admin.awcapitalltd.com/api/contactus`)
@@ -36,7 +54,7 @@ function Contact() {
     event.preventDefault();
     // setIsSent(true);
     console.log(`name: ${name} mail: ${mail} content: ${content}`)
-    const postObj = JSON.stringify({ contact_name: name, contact_email: mail, content_txt: content });
+    const postObj = JSON.stringify({ contact_name: name, contact_email: mail, contact_message: content });
     fetch("https://admin.awcapitalltd.com/api/contactus/", { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: postObj, redirect: 'follow' })
       .then(response => response.text())
       .then(result => { console.log('result: ', result); setIsSent(true) })
@@ -48,7 +66,7 @@ function Contact() {
   }, []);
   return (
     <div className='contact-container main-font'>
-      <div className='contact-info'>
+      <div className='contact-info' style={{backgroundImage: `url(${bannerData.image})`}}>
         <div className='contact-info-overlay'>
           <div className='contact-info-content'>
             <h1>Get in touch</h1>
@@ -70,7 +88,7 @@ function Contact() {
                     <p>
                       {
                         contactInfo &&
-                        <a href={`mailto:${contactInfo['company info'][0]?.mail_id}`}>
+                        <a style={{ textDecoration: 'none', color: 'inherit' }} href={`mailto:${contactInfo['company info'][0]?.mail_id}`}>
                           {contactInfo && contactInfo["company info"][0]?.mail_id}
                         </a>
                       }
@@ -89,11 +107,11 @@ function Contact() {
                   <p className='main'>Office</p>
                   <p>Come say hello at our office HQ</p>
                   <div className='flex-info-sub-text'>
-                    <p>
+                    <p style={{fontWeight:550}}>Address 1 - {' '}
                       {contactInfo &&
                         contactInfo["company info"][0]?.address_id_1}
                     </p>
-                    <p>
+                    <p style={{fontWeight:550}}>Address 2 - {' '}
                       {contactInfo &&
                         contactInfo["company info"][0]?.address_id_2}
                     </p>
@@ -125,7 +143,7 @@ function Contact() {
               id=''
               placeholder='Your Name'
               value={name}
-              onChange={(e) => {setName(e.target.value); (e.target.value.length<3)? setValidateError({...validateError, name:ErrorStatement.name}) : setValidateError({...validateError, name:''}) }}
+              onChange={(e) => { setName(e.target.value); (e.target.value.length < 3) ? setValidateError({ ...validateError, name: ErrorStatement.name }) : setValidateError({ ...validateError, name: '' }); console.log('constact info', contactInfo) }}
             />
             <p className="error-msg">{validateError.name}</p>
             <p className='form-text'>Email</p>
@@ -136,7 +154,7 @@ function Contact() {
               id=''
               placeholder='you@name.com'
               value={mail}
-              onChange={(e) => {setMail(e.target.value); (e.target.value.endsWith('.com') || e.target.value.endsWith('.in') || e.target.value.endsWith('.edu')) ? setValidateError({...validateError, mail:''}) : setValidateError({...validateError, mail:ErrorStatement.mail}) }}
+              onChange={(e) => { setMail(e.target.value); (e.target.value.endsWith('.com') || e.target.value.endsWith('.in') || e.target.value.endsWith('.edu')) ? setValidateError({ ...validateError, mail: '' }) : setValidateError({ ...validateError, mail: ErrorStatement.mail }) }}
             />
             <p className="error-msg">{validateError.mail}</p>
             <p className='form-text'>How Can We Help You?</p>
@@ -148,7 +166,7 @@ function Contact() {
               cols='30'
               rows='10'
               value={content}
-              onChange={(e) => {setContent(e.target.value); (e.target.value.length < 10)? setValidateError({...validateError, content:ErrorStatement.content}): setValidateError({...validateError, content:''}) }}
+              onChange={(e) => { setContent(e.target.value); (e.target.value.length < 10) ? setValidateError({ ...validateError, content: ErrorStatement.content }) : setValidateError({ ...validateError, content: '' }) }}
             ></textarea>
             <p className="error-msg">{validateError.content}</p>
             {isSent ? (

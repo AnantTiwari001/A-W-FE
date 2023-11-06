@@ -1,6 +1,26 @@
 .about {
   position: relative;
 }
+#text{
+  transform: translate(-50%, -70%)
+}
+/* .mobile-circle-image{
+  transform: scale(0.7);
+} */
+#main-icon1{
+  scale: 0.75 ;
+  right: 107px;
+}
+#main-icon2{
+  scale: 0.75;
+  top: 212px;
+}
+#main-icon3{
+  scale: 0.75;
+}
+#mobile-circle img{
+  transform: scale(0.75);
+}
 
 .about__banner {
   /* height: calc(100vh - 100px); */
@@ -134,7 +154,7 @@
 }
 .parallax-image {
   position: absolute;
-  top: 60%;
+  top: 50%;
   height: 560px;
   width: 100%;
 }
@@ -324,7 +344,7 @@
   width: 340px;
   height: 410px;
   background-color: white;
-  opacity: 50%;
+  opacity: 60%;
   position: absolute;
   right: 0;
 }
@@ -344,6 +364,7 @@
 .our-global-card-item p {
   text-align: center;
   font-size: 16px;
+  display: none;
 }
 
 /* <!-- Our Global Style ends dev.nur --> */
@@ -470,8 +491,8 @@
 }
 .disney {
   position: absolute;
-  bottom: 74px;
-  right: 40px;
+  bottom: 84px;
+  right: 25px;
   width: 90px;
 }
 .sharechat {
@@ -535,12 +556,12 @@
 .text-sports {
   position: absolute;
   top: 0;
-  left: 8%;
+  left: 5%;
 }
 .text-gaming {
   position: absolute;
   top: 0;
-  right: -4%;
+  right: -19%;
 }
 .about ul {
   list-style: none;
@@ -629,7 +650,7 @@
   position: absolute;
   bottom: -25px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-40%);
   width: 200px;
 }
 .about__service__container {
@@ -675,6 +696,10 @@
 /* Media Queries */
 
 @media (max-width: 1200px) {
+  .global-image-overlay{
+    bottom: 95px;
+    left: 0;
+  }
   .parallax-content-text-header {
     width: 100%;
   }
@@ -712,6 +737,9 @@
 }
 
 @media (max-width: 850px) {
+  .global-image-overlay{
+    right: 0;
+  }
   /* .banner-about-container {
     background: url("../assets/Banners (mobile)/banner.png");
     background-repeat: no-repeat;
@@ -744,7 +772,7 @@
       37% 93%,
       0 93%
     );
-    height: 105vh;
+    height: 88vh;
   }
   .about-section {
     width: 95%;
@@ -801,7 +829,7 @@
     /* left: 1px; */
   }
   .about__parallax-section {
-    margin-bottom: 400px;
+    margin-bottom: 200px;
   }
 
   .about__service {
@@ -865,7 +893,7 @@
     display: flex;
   }
   .our-global-presence-parent {
-    max-width: 800px;
+    /* max-width: 800px; */
     display: flex;
     justify-content: center;
   }
@@ -932,7 +960,7 @@
     padding-right: 0;
   }
   .our-global-presence-parent {
-    max-width: 400px;
+    /* max-width: 400px; */
     justify-content: center;
   }
   .our-global-card {
@@ -1046,7 +1074,7 @@
     /* transform: translateY(-10%); */
   }
 }
-@media (max-width: 370px) {
+@media (max-width: 500px) {
   .about__service {
     transform: translateX(0);
   }
@@ -1058,15 +1086,21 @@
     width: 90%;
   }
   .parallax-image {
-    top: 95%;
+    top: 72%;
+  }
+  #mobile-circle{
+    transform: translateY(110px);
+  }
+  .about__parallax-section{
+    margin-bottom: 65px;
   }
 }
 
 @media (max-width: 330px) {
   .about__parallax-content {
-    height: 930px;
+    /* height: 930px; */
   }
   .parallax-image {
-    top: 100%;
+    /* top: 100%; */
   }
 }

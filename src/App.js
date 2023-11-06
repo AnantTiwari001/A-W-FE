@@ -14,11 +14,15 @@ import {
   Test,
   Privacy
 } from "./components";
+import ParallexComponent from "./components/ParallexComponent";
+import image from './assets/Image 3 (About Us page).jpeg'
+import Preload from "./components/Preload";
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="parallex" element={<Preload/>} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/test" element={<Test />} />

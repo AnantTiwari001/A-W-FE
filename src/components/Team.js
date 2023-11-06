@@ -6,7 +6,15 @@ import "../css/team.css";
 import image from "./../assets/team/background.webp";
 import mobileImage from "./../assets/team/mobile-background.webp";
 import TeamItem from "./TeamItem";
+import ParallexComponent from "./ParallexComponent";
 const Team = () => {
+  const [bannerData, setBannerData]= useState({
+    type: "",
+    h1text: "",
+    h2text: "",
+    image: ""
+  })
+
   const scroll = () => {
     window.scrollBy({
       top: window.innerHeight,
@@ -24,6 +32,18 @@ const Team = () => {
   }, []);
 
   useEffect(() => {
+    // banner Api
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("https://admin.awcapitalltd.com/api/bannerimages/OurTeam/", requestOptions)
+      .then(response => response.text())
+      .then(result => setBannerData(JSON.parse(result).data[0]))
+      .catch(error => console.log('error', error));
+
+
     const timeOutId = setTimeout(() => {
       const scrollContent = document.getElementById("scroll-first-section");
       const contentHeight =
@@ -55,7 +75,7 @@ const Team = () => {
       {currentNavState && <div className='mobile-overlay'></div>}
       <div className='mainContainer'>
         <div className='team__banner'>
-          <ParallaxBanner
+          {/* <ParallaxBanner
             layers={[
               {
                 image: width > 800 ? image : mobileImage,
@@ -74,14 +94,22 @@ const Team = () => {
               },
             ]}
             className='banner__background'
-          >
-            <div className='banner__background__overlay'>
-              <div className='banner__background__text'  style={{width:'100%', textAlign:'center'}}>
-                
+          > */}
+          <ParallexComponent img={bannerData.image} further={0.3}>
+            <div className='banner__background__overlay' style={{ position: 'relative' }}>
+              {/* <div className="clip" >
+                <div style={{ flex: 1, backgroundColor: 'white' }} />
+                <div style={{ width: '150px', backgroundColor: 'white', height: '100%', position: 'relative', bottom: '50px' }} className="clip-pol" />
+                <div style={{ width: '300px', height: '50px', backgroundColor: 'white', position: 'absolute', left: '40%', bottom: '0px' }} />
+                <div style={{ flex: 1, backgroundColor: 'white' }} />
+
+              </div> */}
+              <div className='banner__background__text' style={{ width: '100%', textAlign: 'center' }}>
+                <p id="title">We are<br/> A&w Capital</p>
               </div>
             </div>
-            <div></div>
-          </ParallaxBanner>
+          </ParallexComponent>
+          {/* </ParallaxBanner> */}
         </div>
         <div className='team-container' id='scroll-first-section'>
           {teamMembers && (

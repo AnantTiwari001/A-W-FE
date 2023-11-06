@@ -8,12 +8,32 @@ import "../css/media.css";
 import { getMedia, setActiveNav } from "./../actions";
 import image from "./../assets/media/media-update-banner.png";
 import MediaDetails from "./MediaDetails";
+import ParallexComponent from "./ParallexComponent";
 
 const Media = () => {
   const [showFirst, setshowFirst] = useState(false);
+  const [bannerData, setBannerData]= useState({
+    type: "",
+    h1text: "",
+    h2text: "",
+    image: ""
+  })
+
 
   const [width, setwidth] = useState(window.innerWidth);
   useEffect(() => {
+    // banner Api
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("https://admin.awcapitalltd.com/api/bannerimages/Media/", requestOptions)
+      .then(response => response.text())
+      .then(result => setBannerData(JSON.parse(result).data[0]))
+      .catch(error => console.log('error', error));
+
+
     const widthChange = window.addEventListener("resize", () => {
       // console.log(window.innerWidth);
       setwidth(window.innerWidth);
@@ -54,7 +74,7 @@ const Media = () => {
     <div className='body main-font'>
       {currentNavState && <div className='mobile-overlay'></div>}
       <div className='about__banner'>
-        <ParallaxBanner
+        {/* <ParallaxBanner
           layers={[
             {
               image: width > 800 ? image : mobileImage,
@@ -76,11 +96,15 @@ const Media = () => {
             },
           ]}
           className='banner__background'
-        >
+        > */}
+        <ParallexComponent img={bannerData.image} further={0.3}>
           <div className='banner__background__overlay__about'>
-            <div className='banner__background__text'></div>
+            <div className='banner__background__text'>
+            <p style={ width<600? {textAlign:'center', fontSize:'32px',fontWeight:'700', alignSelf:'center'}: {display:"none"}} >OUR SERVICES</p>
+            </div>
           </div>
-        </ParallaxBanner>
+        </ParallexComponent>
+        {/* </ParallaxBanner> */}
       </div>
 
       <div className='section media-container' id='scroll-first-section'>
@@ -92,13 +116,13 @@ const Media = () => {
 
                 <div className='media-details-date'>
                   <p>{media[0]?.category.category_name}</p>
-                  <img
+                  {/* <img
                     loading='lazy'
                     src={v1}
                     alt='vector'
                     className='vector-image'
-                  />
-                  <p>{media[0]?.published_at}</p>
+                  /> */}
+                  <p style={{marginRight:3}}>{media[0]?.published_at}</p>
                 </div>
                 <div className='title'>
                   <a
